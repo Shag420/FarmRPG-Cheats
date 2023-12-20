@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 import aiohttp
 import asyncio
 import threading
@@ -184,10 +185,202 @@ def create_main_window():
 
     tab1 = ttk.Frame(notebook)
     tab2 = ttk.Frame(notebook)
+    ex = ttk.Frame(notebook)
+    farming = ttk.Frame(notebook)
+
+    notebook.add(farming, text="Farming")
+    farm_map_id = tk.StringVar()
+
+    farm_id_label = ttk.Label(farming, text="Farm ID (e.g. 420635):")
+    farm_id_entry = ttk.Entry(farming, textvariable=farm_map_id)
+    farm_id_label.pack(pady=5)
+    farm_id_entry.pack(pady=5)
+
+    plantall = ttk.Button(farming, text="Plant All Selected", command=lambda: plant())
+    plantall.pack(pady=5)
+    def plant():
+        farm_id = farm_id_entry.get()
+        import requests
+
+        cookies = {
+            'farmrpg_token': 'submfq9t23gn9enbq42u3uapfq6r1ck0mpncclp1',
+            'pac_ocean': 'D479DEC0',
+            '_ga_94M1PS2E9X': 'GS1.1.1703105101.1.1.1703108170.0.0.0',
+            '_ga': 'GA1.1.2040430935.1703105102',
+            'HighwindFRPG': FRPG_COOKIE,
+        }
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            # 'Accept-Encoding': 'gzip, deflate, br',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Origin': 'https://farmrpg.com',
+            'Connection': 'keep-alive',
+            'Referer': 'https://farmrpg.com/index.php',
+            # 'Cookie': 'farmrpg_token=submfq9t23gn9enbq42u3uapfq6r1ck0mpncclp1; pac_ocean=D479DEC0; _ga_94M1PS2E9X=GS1.1.1703105101.1.1.1703108170.0.0.0; _ga=GA1.1.2040430935.1703105102; HighwindFRPG=y5RNFlwJ^%^2FN7GSDHVmbuwyWcYNJR0tnPkM9BpxaWOCIo^%^3D^%^3Cstrip^%^3E^%^24argon2id^%^24v^%^3D19^%^24m^%^3D7168^%^2Ct^%^3D4^%^2Cp^%^3D1^%^24REozd3doZjVpTW9IalVZUQ^%^24xV7pzsQS632AJN3lanMdzIouebH661s20IOg3^%^2B5GM1M',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-origin',
+            # 'Content-Length': '0',
+        }
+
+        params = {
+            'go': 'plantall',
+            'id': farm_id,
+        }
+
+        response = requests.post('https://farmrpg.com/worker.php', params=params, cookies=cookies, headers=headers)
+        messagebox.showinfo("Success!", str(response.text)+" : Planted All Selected!")
+
+    harvest = ttk.Button(farming, text="Harvest All Crops", command=lambda: harvestc())
+    harvest.pack(pady=5)
+    def harvestc():
+        farm_id = farm_id_entry.get()
+        import requests
+
+        cookies = {
+            'farmrpg_token': 'submfq9t23gn9enbq42u3uapfq6r1ck0mpncclp1',
+            'pac_ocean': 'D479DEC0',
+            '_ga_94M1PS2E9X': 'GS1.1.1703105101.1.1.1703108655.0.0.0',
+            '_ga': 'GA1.1.2040430935.1703105102',
+            'HighwindFRPG': FRPG_COOKIE,
+        }
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            # 'Accept-Encoding': 'gzip, deflate, br',
+            'Referer': 'https://farmrpg.com/index.php',
+            'Origin': 'https://farmrpg.com',
+            'Connection': 'keep-alive',
+            # 'Cookie': 'farmrpg_token=submfq9t23gn9enbq42u3uapfq6r1ck0mpncclp1; pac_ocean=D479DEC0; _ga_94M1PS2E9X=GS1.1.1703105101.1.1.1703108655.0.0.0; _ga=GA1.1.2040430935.1703105102; HighwindFRPG=y5RNFlwJ^%^2FN7GSDHVmbuwyWcYNJR0tnPkM9BpxaWOCIo^%^3D^%^3Cstrip^%^3E^%^24argon2id^%^24v^%^3D19^%^24m^%^3D7168^%^2Ct^%^3D4^%^2Cp^%^3D1^%^24REozd3doZjVpTW9IalVZUQ^%^24xV7pzsQS632AJN3lanMdzIouebH661s20IOg3^%^2B5GM1M',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-origin',
+            # 'Content-Length': '0',
+            # Requests doesn't support trailers
+            # 'TE': 'trailers',
+        }
+
+        params = {
+            'id': farm_id,
+            'go': 'harvestall',
+        }
+
+        response = requests.post('https://farmrpg.com/worker.php', params=params, cookies=cookies, headers=headers)
+        messagebox.showinfo("Success!", str(response.text)+" : Harvested All Crops!")
 
     notebook.add(tab1, text="Fishing")
     notebook.add(tab2, text="Exploring")
+    notebook.add(ex, text="Extra")
+    sellall = ttk.Button(ex, text="Sell all unlocked items", command=lambda: sellallitem())
+    sellall.pack(pady=5)
+    def sellallitem():
+        import requests
 
+        cookies = {
+            'farmrpg_token': 'submfq9t23gn9enbq42u3uapfq6r1ck0mpncclp1',
+            'pac_ocean': 'D479DEC0',
+            '_ga_94M1PS2E9X': 'GS1.1.1703105101.1.1.1703106756.0.0.0',
+            '_ga': 'GA1.1.2040430935.1703105102',
+            'HighwindFRPG': FRPG_COOKIE,
+        }
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            # 'Accept-Encoding': 'gzip, deflate, br',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Origin': 'https://farmrpg.com',
+            'Connection': 'keep-alive',
+            'Referer': 'https://farmrpg.com/index.php',
+            # 'Cookie': 'farmrpg_token=submfq9t23gn9enbq42u3uapfq6r1ck0mpncclp1; pac_ocean=D479DEC0; _ga_94M1PS2E9X=GS1.1.1703105101.1.1.1703106756.0.0.0; _ga=GA1.1.2040430935.1703105102; HighwindFRPG=y5RNFlwJ^%^2FN7GSDHVmbuwyWcYNJR0tnPkM9BpxaWOCIo^%^3D^%^3Cstrip^%^3E^%^24argon2id^%^24v^%^3D19^%^24m^%^3D7168^%^2Ct^%^3D4^%^2Cp^%^3D1^%^24REozd3doZjVpTW9IalVZUQ^%^24xV7pzsQS632AJN3lanMdzIouebH661s20IOg3^%^2B5GM1M',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-origin',
+            # 'Content-Length': '0',
+        }
+
+        params = {
+            'go': 'sellalluseritems',
+        }
+
+        response = requests.post('https://farmrpg.com/worker.php', params=params, cookies=cookies, headers=headers)
+        messagebox.showinfo("Success!", str(response.text)+" : Sold all unlocked items!")
+    unlockall = ttk.Button(ex, text="Unlock all locked items", command=lambda: unlock())
+    unlockall.pack(pady=5)
+    def unlock():
+        import requests
+
+        cookies = {
+            'farmrpg_token': 'submfq9t23gn9enbq42u3uapfq6r1ck0mpncclp1',
+            'pac_ocean': 'D479DEC0',
+            '_ga_94M1PS2E9X': 'GS1.1.1703105101.1.1.1703107265.0.0.0',
+            '_ga': 'GA1.1.2040430935.1703105102',
+            'HighwindFRPG': FRPG_COOKIE,
+        }
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            # 'Accept-Encoding': 'gzip, deflate, br',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Origin': 'https://farmrpg.com',
+            'Connection': 'keep-alive',
+            'Referer': 'https://farmrpg.com/index.php',
+            # 'Cookie': 'farmrpg_token=submfq9t23gn9enbq42u3uapfq6r1ck0mpncclp1; pac_ocean=D479DEC0; _ga_94M1PS2E9X=GS1.1.1703105101.1.1.1703107265.0.0.0; _ga=GA1.1.2040430935.1703105102; HighwindFRPG=y5RNFlwJ^%^2FN7GSDHVmbuwyWcYNJR0tnPkM9BpxaWOCIo^%^3D^%^3Cstrip^%^3E^%^24argon2id^%^24v^%^3D19^%^24m^%^3D7168^%^2Ct^%^3D4^%^2Cp^%^3D1^%^24REozd3doZjVpTW9IalVZUQ^%^24xV7pzsQS632AJN3lanMdzIouebH661s20IOg3^%^2B5GM1M',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-origin',
+            # 'Content-Length': '0',
+        }
+
+        params = {
+            'go': 'unlockinvall',
+        }
+
+        response = requests.post('https://farmrpg.com/worker.php', params=params, cookies=cookies, headers=headers)
+        messagebox.showinfo("Success!", str(response.text)+" : Unlocked all items!")
+    cm = ttk.Button(ex, text="Collect All Mail Items", command=lambda: cmi())
+    cm.pack(pady=5)
+    def cmi():
+        import requests
+
+        cookies = {
+            'farmrpg_token': 'submfq9t23gn9enbq42u3uapfq6r1ck0mpncclp1',
+            'pac_ocean': 'D479DEC0',
+            '_ga_94M1PS2E9X': 'GS1.1.1703105101.1.1.1703109448.0.0.0',
+            '_ga': 'GA1.1.2040430935.1703105102',
+            'HighwindFRPG': FRPG_COOKIE,
+        }
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            # 'Accept-Encoding': 'gzip, deflate, br',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Origin': 'https://farmrpg.com',
+            'Connection': 'keep-alive',
+            'Referer': 'https://farmrpg.com/index.php',
+            # 'Cookie': 'farmrpg_token=submfq9t23gn9enbq42u3uapfq6r1ck0mpncclp1; pac_ocean=D479DEC0; _ga_94M1PS2E9X=GS1.1.1703105101.1.1.1703109448.0.0.0; _ga=GA1.1.2040430935.1703105102; HighwindFRPG=y5RNFlwJ^%^2FN7GSDHVmbuwyWcYNJR0tnPkM9BpxaWOCIo^%^3D^%^3Cstrip^%^3E^%^24argon2id^%^24v^%^3D19^%^24m^%^3D7168^%^2Ct^%^3D4^%^2Cp^%^3D1^%^24REozd3doZjVpTW9IalVZUQ^%^24xV7pzsQS632AJN3lanMdzIouebH661s20IOg3^%^2B5GM1M',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-origin',
+            # 'Content-Length': '0',
+        }
+
+        params = {
+            'go': 'collectallmailitems',
+        }
+
+        response = requests.post('https://farmrpg.com/worker.php', params=params, cookies=cookies, headers=headers)
+        messagebox.showinfo("Success!", str(response.text)+" : Collected All Mail!")
     temp_wait_time = tk.StringVar()
     temp_fish_map_id = tk.StringVar()
     fishing_autofarm = False
