@@ -1,6 +1,6 @@
 #Made By Shag420
 #Discord: Shag420
-#https://replit.com/@GH0STMAINE/explore
+#Try here: https://replit.com/@GH0STMAINE/explore
 
 import aiohttp
 import asyncio
