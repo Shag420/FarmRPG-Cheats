@@ -4,9 +4,9 @@ https://farmrpg.com
 
 Python Requirements:
 
-tkinter
-aiohttp
-asyncio
+tkinter,
+aiohttp,
+asyncio,
 threading
 
 install FarmRPG_Menu.py and run it :
