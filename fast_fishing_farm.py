@@ -1,6 +1,6 @@
 #Made By Shag420
 #Discord: Shag420
-#https://replit.com/@GH0STMAINE/fish
+#Try here: https://replit.com/@GH0STMAINE/fish
 
 wait_time = False #True or False [Case Sensitive]
 
