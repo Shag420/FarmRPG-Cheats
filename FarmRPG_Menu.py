@@ -1,3 +1,6 @@
+#Made By Shag420
+#Discord: Shag420
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
