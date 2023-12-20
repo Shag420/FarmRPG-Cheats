@@ -1,2 +1,13 @@
 # FarmRPG-Cheats
 FarmRPG Python Cheat Menu
+
+Python Requirements:
+
+Tkinter
+aiohttp
+asyncio
+threading
+
+install FarmRPG_Menu.py and open it
+Get your HighwindFRPG Cookie from the website using devtools or EditThisCookie extension 
+and input it on the login screen of the Cheat menu
