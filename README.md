@@ -3,7 +3,7 @@ FarmRPG Python Cheat Menu
 
 Python Requirements:
 
-Tkinter
+tkinter
 aiohttp
 asyncio
 threading
